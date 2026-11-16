@@ -1,0 +1,32 @@
+# Learn more about configuring your Customer account UI extension:
+# https://shopify.dev/docs/api/customer-account-ui-extensions/latest#configuration
+
+# The version of APIs your extension will receive. Learn more:
+# https://shopify.dev/docs/api/usage/versioning
+api_version = "2026-10"
+
+[[extensions]]
+name = "b2b-registration-extension"
+handle = "b2b-registration-extension"
+type = "ui_extension"
+uid = "4f9d3caf-73cc-ab0d-373d-abe964c36769e03eda0c"
+
+# Controls where in Shopify your extension will be injected,
+# and the file that contains your extension’s source code. Learn more:
+# https://shopify.dev/docs/api/customer-account-ui-extensions/latest/targets
+
+[[extensions.targeting]]
+#module = "./src/OrderStatusBlock.jsx"
+#target = "customer-account.order-status.block.render"
+module = "./src/ProfileBlock.jsx"
+target = "customer-account.profile.block.render"
+
+[extensions.capabilities]
+# Gives your extension access to directly query Shopify’s storefront API.
+# https://shopify.dev/docs/apps/build/customer-accounts/capabilities#storefront-api-access
+api_access = true
+
+# Gives your extension access to make external network calls, using the
+# JavaScript `fetch()` API. Learn more:
+# https://shopify.dev/docs/apps/build/customer-accounts/capabilities#network-access
+network_access = true
