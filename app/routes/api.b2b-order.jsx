@@ -96,7 +96,7 @@ export async function action({ request }) {
 
     const { admin } = await unauthenticated.admin(shop);
 
-    // 2. Shop currency + Variant aur Product ke custom.wholesale_price metafields fetch karein
+    // 2. Shop currency + Variant inventory, policy aur custom.wholesale_price metafields fetch karein
     const variantGids = normalizedItems.map(
       (item) => `gid://shopify/ProductVariant/${item.variantId}`
     );
@@ -111,6 +111,8 @@ export async function action({ request }) {
           ... on ProductVariant {
             id
             price
+            inventoryQuantity
+            inventoryPolicy
             variantWholesale: metafield(namespace: "custom", key: "wholesale_price") {
               value
             }
@@ -139,7 +141,7 @@ export async function action({ request }) {
       }
     }
 
-    // 3. MOQ validate karein aur lineItems mein priceOverride set karein
+    // 3. MOQ + Available Inventory validate karein aur lineItems mein priceOverride set karein
     const lineItems = [];
     let totalUnits = 0;
 
@@ -160,6 +162,22 @@ export async function action({ request }) {
           {
             success: false,
             error: `"${variant.product.title}" ke liye minimum order quantity (MOQ) ${moq} units honi chahiye.`,
+          },
+          { status: 400, headers: corsHeaders }
+        );
+      }
+
+      // Server-side Inventory Guard (jab inventoryPolicy 'DENY' ho)
+      if (
+        orderType !== 'quote' &&
+        variant.inventoryPolicy === 'DENY' &&
+        typeof variant.inventoryQuantity === 'number' &&
+        item.quantity > variant.inventoryQuantity
+      ) {
+        return Response.json(
+          {
+            success: false,
+            error: `"${variant.product.title}" ka sirf ${variant.inventoryQuantity} stock available hai. Aap ${item.quantity} units order nahi kar sakte.`,
           },
           { status: 400, headers: corsHeaders }
         );

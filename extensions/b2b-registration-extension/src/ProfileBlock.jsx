@@ -193,7 +193,7 @@ function B2BRegistrationBlock() {
       if (response.ok && data.success) {
         setStatus({
           tone: 'success',
-          message: 'B2B Wholesale account activate ho gaya hai! Ab store par wholesale prices dekh sakte hain.',
+          message: 'Your B2B Wholesale account has been activated! You can now view wholesale prices on our store.',
         });
       } else {
         setStatus({
