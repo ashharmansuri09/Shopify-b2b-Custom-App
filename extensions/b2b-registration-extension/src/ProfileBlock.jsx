@@ -148,7 +148,7 @@ export default async () => {
 
 // Har "shopify app dev" restart par terminal ka "Using URL" badalta hai.
 // Sirf yahi base URL update karein (end mein /api/... na lagayein).
-const APP_BASE_URL = 'https://jungle-cork-excellence-dish.trycloudflare.com/';
+const APP_BASE_URL = 'https://shopify-b2b-custom-app.vercel.app';
 
 function B2BRegistrationBlock() {
   const [accountType, setAccountType] = useState('retail');

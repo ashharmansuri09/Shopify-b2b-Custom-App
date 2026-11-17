@@ -2,7 +2,7 @@
 
 client_id = "15674e8687183ee80aefc989cc92518a"
 name = "ashhar-b2b-portal"
-application_url = "https://example.com"
+application_url = "https://shopify-b2b-custom-app.vercel.app"
 embedded = true
 
 [access_scopes]
@@ -71,7 +71,11 @@ api_version = "2026-10"
   query_filter = "product.status:'ACTIVE'"
 
 [auth]
-redirect_urls = [ "https://example.com/api/auth" ]
+redirect_urls = [
+  "https://shopify-b2b-custom-app.vercel.app/auth/callback",
+  "https://shopify-b2b-custom-app.vercel.app/auth/shopify/callback",
+  "https://shopify-b2b-custom-app.vercel.app/api/auth/callback"
+]
 
 [build]
 automatically_update_urls_on_dev = true
